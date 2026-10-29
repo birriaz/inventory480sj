@@ -77,6 +77,7 @@ input[type=search],textarea{width:100%;max-width:820px;font:inherit;padding:12px
 .note{color:#222;font-size:22px;max-width:820px}
 @media (max-width:700px){body{font-size:16px}.card h3{font-size:21px}.tg{grid-template-columns:repeat(2,1fr)}.tile{font-size:18px;min-height:88px}.gh{font-size:22px}.ir{font-size:15px}.ir1{font-size:15px}.seg button{min-height:52px;padding:6px 14px;font-size:16px}nav{width:72px}main{padding:14px 12px 60px}h2{font-size:24px}.card{padding:12px}.prep{padding:8px 12px}nav h1{font-size:18px}nav button span{display:none}nav button{justify-content:center}}
 
+.syn{color:#fff;font-weight:700;font-size:22px;margin:0 0 12px}
 /* red theme */
 body{background:#D90000;color:#000}
 nav{background:#B30000;border-right:3px solid #fff}
@@ -435,7 +436,16 @@ if(t)h+=t.map(g=>`<div class="prep sopt">${g.h?`<h4>${esc(g.h)}</h4>`:''}${g.i.l
 $('main').innerHTML=h+'</article>'}
 $('main').addEventListener('click',e=>{const b=e.target.closest('button[data-sp],button[data-lg],button[data-z]');if(!b)return;
 if(b.dataset.sp){sp=b.dataset.sp;sop()}else if(b.dataset.lg){lg=b.dataset.lg;sop()}else{const o=document.createElement('div');o.className='ov';o.setAttribute('role','dialog');o.innerHTML=`<button class="btn" id="zc">Close</button><div style="margin-top:12px"><img src="${SOPIMG[b.dataset.z]}" alt="Full size picture" style="width:1500px;max-width:none;display:block"></div>`;document.body.appendChild(o);$('zc').onclick=()=>o.remove()}});
-function mail(to,sub,body){const o=document.createElement('div');o.className='ov';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');
+/* PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BETWEEN THE QUOTES (ends in /exec). Leave empty to open the email app instead. */
+const BACKEND='https://script.google.com/macros/s/AKfycbwRkPlIUYXZVmsCQZQKkQsSBFNpoMC3V1fdOdOZxSLEPhSQsp5jOebnWdTP1pAz4Cf7Ow/exec',BKEY='';
+function toast(t,bad){let d=$('toast');if(!d){d=document.createElement('div');d.id='toast';d.setAttribute('role','status');d.style.cssText='position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:99;padding:18px 28px;border-radius:14px;font:700 26px/1.3 inherit;max-width:90vw;text-align:center;border:4px solid #000';document.body.appendChild(d)}
+d.style.background=bad?'#000':'#fff';d.style.color=bad?'#fff':'#000';d.textContent=t;d.style.display='block';clearTimeout(d._t);d._t=setTimeout(()=>{d.style.display='none'},bad?9000:5000)}
+function bsend(action,data,okMsg,done){toast('Sending...');
+const c=new AbortController(),tm=setTimeout(()=>c.abort(),30000);
+fetch(BACKEND,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({action:action,key:BKEY},data)),signal:c.signal})
+.then(r=>r.json()).then(j=>{clearTimeout(tm);if(j&&j.ok){toast(okMsg);done()}else toast('Not sent: '+((j&&j.error)||'unknown error')+'. Nothing was cleared. Try again.',true)})
+.catch(()=>{clearTimeout(tm);toast('Not sent. Check the wifi and try again. Nothing was cleared.',true)})}
+function mail(to,sub,body){if(/github\.io$/.test(location.hostname)||location.protocol==='file:'||location.hostname==='localhost'){const a=document.createElement('a');a.href='mailto:'+to+'?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body);document.body.appendChild(a);a.click();a.remove();return}const o=document.createElement('div');o.className='ov';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');
 o.innerHTML=`<h2>Copy and send</h2><p class="note"><b>To:</b> ${esc(to)}<br><b>Subject:</b> ${esc(sub)}</p><textarea id="ot" rows="9" readonly>${esc(body)}</textarea><div class="seg"><button class="btn" id="oa">Copy address</button><button class="btn" id="ob">Copy report</button><button class="btn alt" id="oc">Close</button></div><p class="note" id="om">Copy the address and the report, then paste them into your email or text app and send.</p>`;
 document.body.appendChild(o);
 const cp=t=>{const done=ok=>{$('om').textContent=ok?'Copied. Now paste it into your email or text app.':'Could not copy. Press and hold the text, choose Select all, then Copy.'};const fb=()=>{let ok=false;const x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();try{ok=document.execCommand('copy')}catch(e){}x.remove();done(ok)};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(()=>done(true),fb);else fb()};
@@ -443,25 +453,50 @@ $('oa').onclick=()=>cp(to);$('ob').onclick=()=>cp(body);$('oc').onclick=()=>o.re
 
 function dueSlot(){const n=new Date();for(let d=0;d<8;d++){const t=new Date(n.getFullYear(),n.getMonth(),n.getDate()-d,6,0,0);if((t.getDay()===0||t.getDay()===3)&&t<=n)return t.getTime()}return 0}
 
-function oos(){$('main').innerHTML=`<h2>Out of stock items</h2><div id="bn"></div><input type="search" id="sq" placeholder="Search items" aria-label="Search items" value="${esc(q)}"><div id="ls"></div><div class="sum" id="sm"></div>`;
-$('sq').oninput=e=>{q=e.target.value;list()};list();sum()}
+function oos(){$('main').innerHTML=`<h2>Out of stock items</h2><div id="sy" class="syn" role="status"></div><div id="bn"></div><input type="search" id="sq" placeholder="Search items" aria-label="Search items" value="${esc(q)}"><div id="ls"></div><div class="sum" id="sm"></div>`;
+$('sq').oninput=e=>{q=e.target.value;list()};list();sum();syncStatus()}
 function list(){const f=q.toLowerCase();$('ls').innerHTML=ITEMS.filter(i=>i.n.toLowerCase().includes(f)).map(i=>{const n=S.oos[i.c];
 return `<div class="row ${n?'on':''}"><div class="nm">${esc(i.n)}<small>#${i.c}</small></div>${n?`<div class="ctr"><button data-c="${i.c}" data-d="-1" aria-label="Fewer ${esc(i.n)}">&minus;</button><b aria-live="polite">${n}</b><button data-c="${i.c}" data-d="1" aria-label="More ${esc(i.n)}">+</button></div>`:''}<label class="sw"><input type="checkbox" data-t="${i.c}" ${n?'checked':''} aria-label="Needed: ${esc(i.n)}"><span></span></label></div>`}).join('')}
 function sum(){const it=ITEMS.filter(i=>S.oos[i.c]);const due=dueSlot();
 $('bn').innerHTML=it.length&&S.sent<due?'<div class="banner">The Sunday/Wednesday 6 AM order email is due. Send it below.</div>':'';
-$('sm').innerHTML=`<h2>Summary (${it.length} items)</h2>`+(it.length?`<ul>${it.map(i=>`<li>${esc(i.n)} &times; ${S.oos[i.c]}</li>`).join('')}</ul><button class="btn" id="se">Get order to send</button> `+(S.pending?'<button class="btn alt" id="cl">Email sent: clear list</button>':''):'<p class="note">Nothing marked yet. Switch on any item that is out.</p>')+'<p class="note">Goes to birriaz480sj@gmail.com. Send every Sunday and Wednesday at 6 AM, then clear the list.</p>';
-if($('se'))$('se').onclick=()=>{const d=new Date().toLocaleString();mail('birriaz480sj@gmail.com','Birriaz out of stock list - '+d,'Out of stock as of '+d+':\n\n'+it.map(i=>i.n+' x '+S.oos[i.c]).join('\n'));S.pending=true;S.sent=Date.now();save();sum()};
+$('sm').innerHTML=`<h2>Summary (${it.length} items)</h2>`+(it.length?`<ul>${it.map(i=>`<li>${esc(i.n)} &times; ${S.oos[i.c]}</li>`).join('')}</ul><button class="btn" id="se">Send order email</button> `+(S.pending?'<button class="btn alt" id="cl">Email sent: clear list</button>':''):'<p class="note">Nothing marked yet. Switch on any item that is out.</p>');
+if($('se'))$('se').onclick=()=>{if(BACKEND){bsend('order',{items:it.map(i=>({name:i.n,count:S.oos[i.c]}))},'Order sent. List cleared.',()=>{S.oos={};S.pending=false;S.sent=Date.now();save();enq({action:'clear'});list();sum()});return}const d=new Date().toLocaleString();mail('birriaz480sj@gmail.com','Birriaz out of stock list - '+d,'Out of stock as of '+d+':\n\n'+it.map(i=>i.n+' x '+S.oos[i.c]).join('\n'));S.pending=true;S.sent=Date.now();save();sum()};
 if($('cl'))$('cl').onclick=()=>{S.oos={};S.pending=false;save();list();sum()}}
-document.addEventListener('click',e=>{const b=e.target.closest('button[data-c]');if(!b)return;const c=b.dataset.c,n=(S.oos[c]||1)+ +b.dataset.d;if(n<=0)delete S.oos[c];else S.oos[c]=n;save();list();sum()});
-document.addEventListener('change',e=>{const c=e.target.dataset&&e.target.dataset.t;if(!c)return;if(e.target.checked)S.oos[c]=S.oos[c]||1;else delete S.oos[c];save();list();sum()});
+document.addEventListener('click',e=>{const b=e.target.closest('button[data-c]');if(!b)return;const c=b.dataset.c,n=(S.oos[c]||1)+ +b.dataset.d;if(n<=0)delete S.oos[c];else S.oos[c]=n;save();track(c);list();sum()});
+document.addEventListener('change',e=>{const c=e.target.dataset&&e.target.dataset.t;if(!c)return;if(e.target.checked)S.oos[c]=S.oos[c]||1;else delete S.oos[c];save();track(c);list();sum()});
 
-function maint(){$('main').innerHTML=`<h2>Maintenance report</h2><p><b>Location</b></p><div class="seg" role="group" aria-label="Location">${['San Jacinto','Colton','Food Truck'].map(l=>`<button data-l="${l}" aria-pressed="${S.loc===l}">${l}</button>`).join('')}</div><p><b>What is the issue?</b></p><textarea id="is" rows="6" aria-label="Describe the issue">${esc(S.issue)}</textarea><button class="btn" id="sr" ${S.loc&&S.issue.trim()?'':'disabled'}>Get report to send</button> <button class="btn alt" id="cr">Clear</button><p class="note">Goes to cp1506@yahoo.com. Pick a location and describe the issue first.</p>`;
+function maint(){$('main').innerHTML=`<h2>Maintenance report</h2><p><b>Location</b></p><div class="seg" role="group" aria-label="Location">${['San Jacinto','Colton','Food Truck'].map(l=>`<button data-l="${l}" aria-pressed="${S.loc===l}">${l}</button>`).join('')}</div><p><b>What is the issue?</b></p><textarea id="is" rows="6" aria-label="Describe the issue">${esc(S.issue)}</textarea><button class="btn" id="sr" ${S.loc&&S.issue.trim()?'':'disabled'}>Send report email</button> <button class="btn alt" id="cr">Clear</button>`;
 const chk=()=>{$('sr').disabled=!(S.loc&&S.issue.trim())};
 $('is').oninput=e=>{S.issue=e.target.value;save();chk()};
 document.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{S.loc=b.dataset.l;save();maint()});
-$('sr').onclick=()=>mail('cp1506@yahoo.com','Birriaz maintenance report - '+S.loc,'Location: '+S.loc+'\nDate: '+new Date().toLocaleString()+'\n\nIssue:\n'+S.issue);
+$('sr').onclick=()=>BACKEND?bsend('report',{location:S.loc,issue:S.issue},'Report sent.',()=>{S.loc='';S.issue='';save();maint()}):mail('cp1506@yahoo.com','Birriaz maintenance report - '+S.loc,'Location: '+S.loc+'\nDate: '+new Date().toLocaleString()+'\n\nIssue:\n'+S.issue);
 $('cr').onclick=()=>{S.loc='';S.issue='';save();maint()}}
 go();
+
+/* ---- saving counts to the Google Sheet, with an offline queue ---- */
+const NAME2C={},C2NAME={};ITEMS.forEach(i=>{NAME2C[i.n]=i.c;C2NAME[i.c]=i.n});
+let flushing=false,lastErr='',loaded=false;
+function qget(){try{return JSON.parse(localStorage.getItem('birriaz_q')||'[]')}catch(e){return[]}}
+function qset(q){try{localStorage.setItem('birriaz_q',JSON.stringify(q))}catch(e){}}
+function enq(op){let q=qget();if(op.action==='clear')q=[];else q=q.filter(o=>!(o.action==='set'&&o.item===op.item));q.push(op);qset(q);syncStatus();flush()}
+function track(c){enq({action:'set',item:C2NAME[c],count:S.oos[c]||0})}
+function syncStatus(){const d=$('sy');if(!d)return;const n=qget().length;
+d.textContent=!BACKEND?'':(n?(lastErr?'Not saved yet. Waiting for wifi. '+n+' change'+(n>1?'s':'')+' kept on this tablet.':'Saving... '+n+' change'+(n>1?'s':'')+' left.'):(loaded?'All changes saved.':'Showing counts kept on this tablet.'))}
+function post(op){const c=new AbortController(),t=setTimeout(()=>c.abort(),20000);
+return fetch(BACKEND,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({key:BKEY},op)),signal:c.signal}).then(r=>{clearTimeout(t);return r.json()},e=>{clearTimeout(t);throw e})}
+function flush(){if(!BACKEND||flushing)return;const q=qget();if(!q.length){syncStatus();return}flushing=true;const op=q[0];
+post(op).then(j=>{if(!j||!j.ok)throw new Error('server');const q2=qget();if(q2.length&&JSON.stringify(q2[0])===JSON.stringify(op))q2.shift();qset(q2);flushing=false;lastErr='';syncStatus();flush()})
+.catch(()=>{flushing=false;lastErr='offline';syncStatus()})}
+function applyRemote(counts){const o={};Object.keys(counts||{}).forEach(n=>{if(NAME2C[n]&&counts[n]>0)o[NAME2C[n]]=counts[n]});
+qget().forEach(op=>{if(op.action==='clear'){for(const k in o)delete o[k]}else if(op.action==='set'){const c=NAME2C[op.item];if(!c)return;if(op.count>0)o[c]=op.count;else delete o[c]}});
+if(JSON.stringify(o)!==JSON.stringify(S.oos)){S.oos=o;save();if(cur==='oos'){list();sum()}}}
+function loadRemote(){if(!BACKEND)return;const c=new AbortController(),t=setTimeout(()=>c.abort(),20000);
+fetch(BACKEND+'?t='+Date.now()+(BKEY?'&key='+encodeURIComponent(BKEY):''),{signal:c.signal}).then(r=>{clearTimeout(t);return r.json()}).then(j=>{if(!j||!j.ok)throw new Error('server');applyRemote(j.counts);loaded=true;if(!qget().length)lastErr='';syncStatus()}).catch(()=>{clearTimeout(t);syncStatus()})}
+window.addEventListener('online',()=>{flush();loadRemote()});
+setInterval(flush,15000);
+setInterval(()=>{if(!flushing&&!qget().length)loadRemote()},60000);
+try{if(BACKEND&&!localStorage.getItem('birriaz_seed')){const q=qget();Object.keys(S.oos).forEach(c=>{if(C2NAME[c])q.push({action:'set',item:C2NAME[c],count:S.oos[c]})});qset(q);localStorage.setItem('birriaz_seed','1')}}catch(e){}
+loadRemote();flush();
 </script>
 </body>
 </html>
