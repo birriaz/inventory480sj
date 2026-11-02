@@ -245,7 +245,7 @@ input[type=search],input[type=text],textarea{width:100%;max-width:none;font:inhe
 #fprint{display:none}
 @media print{body.fprinting>*:not(#fprint){display:none!important}body.fprinting #fprint{display:block!important}html,body.fprinting{background:#fff!important;margin:0!important;padding:0!important}#fprint .flab{break-after:page;page-break-after:always;box-shadow:none;border:0}#fprint .flab:last-child{break-after:auto;page-break-after:auto}}
 .flab{box-sizing:border-box;width:62mm;padding:2.5mm;background:#fff;color:#000;font-family:Arial,Helvetica,sans-serif;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;text-align:left}
-.flab.fl{height:100mm}.flab.fm{height:62mm;padding:2mm 2.5mm}
+.flab.fm{height:62mm;padding:2mm 2.5mm}.fhint{font-size:15px;line-height:1.35}.flab div.fnw{white-space:normal;overflow-wrap:anywhere;line-height:1.05}
 .flab .fu{border:.7mm solid #000;border-radius:1.5mm;padding:1.2mm 1mm;text-align:center}.flab .fu span{display:block;font-size:4mm;font-weight:800;letter-spacing:.3mm}
 .flab .fud{display:block;font-weight:900;white-space:nowrap;line-height:1.05;letter-spacing:.1mm}.flab .fudt{display:block;font-weight:900;white-space:nowrap;line-height:1.1}
 .flab.fm .fu{padding:.6mm 1mm}.flab.fm .fu span{font-size:3mm}
@@ -291,6 +291,23 @@ input[type=search],input[type=text],textarea{width:100%;max-width:none;font:inhe
 .pwk td.dn{background:#EAF5E8!important}
 .pwk{min-width:1040px}.pwk .pwc,.pwk .pwc span{word-break:normal;overflow-wrap:break-word;hyphens:none;font-size:15px}.pwk thead th:first-child{width:140px}.pwk tbody th{font-size:14px;padding:4px 6px}.pwk tbody th{word-break:normal;overflow-wrap:break-word}
 @media (max-width:700px){.pshd h2{font-size:26px}.pshd p{font-size:16px}.psb{padding:14px 12px 18px}.pshd{padding:12px}.pcgh{font-size:22px}.psec .row .nm{font-size:20px}.pshd .cnt{font-size:24px}.ptag{font-size:14px}}
+</style>
+<style>
+.zfab{position:fixed;right:16px;bottom:16px;z-index:60;display:flex;align-items:center;gap:8px;min-height:64px;padding:0 22px;border:3px solid #fff;border-radius:32px;background:var(--red,#B0001E);color:#fff;font:700 20px/1 inherit;box-shadow:0 4px 14px rgba(0,0,0,.35);cursor:pointer}
+.zfab span{font-size:24px}
+.zp{position:fixed;right:12px;bottom:12px;z-index:61;display:flex;flex-direction:column;width:min(440px,calc(100vw - 24px));height:min(78vh,720px);background:#fff;color:#000;border:3px solid var(--red,#B0001E);border-radius:18px;box-shadow:0 8px 28px rgba(0,0,0,.4);overflow:hidden}
+.zp header{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--red,#B0001E);color:#fff}
+.zp header div{flex:1;display:flex;flex-direction:column}.zp header b{font-size:22px}.zp header small{font-size:13px;opacity:.9}
+.zi{min-width:48px;min-height:48px;border:2px solid #fff;border-radius:24px;background:transparent;color:#fff;font-size:20px;cursor:pointer}
+.zl{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;background:#fafafa}
+.zm{max-width:88%;padding:10px 14px;border-radius:16px;font-size:18px;line-height:1.35;border:2px solid #000;word-wrap:break-word}
+.zm.a{align-self:flex-start;background:#fff}.zm.u{align-self:flex-end;background:#FDECEE;border-color:var(--red,#B0001E)}.zm.zd{opacity:.7;font-style:italic}
+.zsg{display:flex;flex-direction:column;gap:8px}.zsg button{min-height:48px;padding:8px 12px;border:2px solid var(--red,#B0001E);border-radius:12px;background:#fff;color:#000;font-size:17px;text-align:left;cursor:pointer}
+.zin{display:flex;gap:8px;padding:10px;border-top:3px solid var(--red,#B0001E);background:#fff}
+.zin input{flex:1;min-width:0;min-height:52px;padding:0 12px;font-size:18px;border:3px solid #000;border-radius:12px}
+.zin .zi.zmic{border-color:var(--red,#B0001E);color:var(--red,#B0001E);background:#fff}.zin .zi.zmic.on{background:var(--red,#B0001E);color:#fff}
+.zs{min-height:52px;padding:0 18px}
+@media print{#zelwrap{display:none!important}}
 </style>
 </head>
 <body>
@@ -557,7 +574,7 @@ const nc={};ITEMS.forEach(i=>{nc[i.n]=(nc[i.n]||0)+1});ITEMS.forEach(i=>{i.k=nc[
 let S={oos:{},sent:0,pending:false,loc:'',issue:'',ol:'San Jacinto',by:null,sb:{}};
 try{const t=localStorage.getItem('birriaz');if(t)S=Object.assign(S,JSON.parse(t))}catch(e){}
 
-const ES={'Home':'Inicio','Recipes':'Recetas','Inventory':'Inventario','Maintenance report':'Reporte de mantenimiento','Weekly special':'Especial de la semana','Seasonal items':'Artículos de temporada','Food menu items':'Artículos del menú',
+const ES={'In the print screen choose':'En la pantalla de impresión elija','Orientation':'Orientación','Landscape':'Horizontal','Portrait':'Vertical','More options':'Más opciones','Cut every label':'Cortar cada etiqueta','Home':'Inicio','Recipes':'Recetas','Inventory':'Inventario','Maintenance report':'Reporte de mantenimiento','Weekly special':'Especial de la semana','Seasonal items':'Artículos de temporada','Food menu items':'Artículos del menú',
 'Monday':'Lunes','Tuesday':'Martes','Wednesday':'Miércoles','Thursday':'Jueves','Friday':'Viernes','Saturday':'Sábado','Sunday':'Domingo',
 'No recipes added yet.':'Todavía no hay recetas.','No weekly special added yet.':'Todavía no hay especial de la semana.','No seasonal items added yet.':'Todavía no hay artículos de temporada.','No food menu items added yet.':'Todavía no hay artículos del menú.',
 'Includes':'Incluye','Prep for this order':'Preparación para este pedido','Ingredients':'Ingredientes','For Here':'Para comer aquí','To Go':'Para llevar','Back':'Atrás','Report a problem':'Reportar un problema','Open the list':'Abrir la lista','Tap the picture to see it bigger.':'Toque la imagen para verla más grande.','Close':'Cerrar',
@@ -1512,7 +1529,7 @@ const USEBY_DAYS=6;   // the standard rule (same as the Home "Use by" tile). A P
 function useByDate(from,days){return new Date(from.getFullYear(),from.getMonth(),from.getDate()+(days||USEBY_DAYS))}
 const FDAY=['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
 const fMdY=d=>p2(d.getMonth()+1)+'/'+p2(d.getDate())+'/'+d.getFullYear();
-let FQ=(()=>{let s={};try{s=JSON.parse(localStorage.getItem('birriaz_fifo')||'{}')||{}}catch(e){}const o=Object.assign({prod:'',custom:'',emp:'',copies:1,size:'L',q:'',log:[],ops:[],wait:null},s);if(['L','M','S'].indexOf(o.size)<0)o.size='L';return o})();
+let FQ=(()=>{let s={};try{s=JSON.parse(localStorage.getItem('birriaz_fifo')||'{}')||{}}catch(e){}const o=Object.assign({prod:'',custom:'',emp:'',copies:1,size:'M',q:'',log:[],ops:[],wait:null},s);if(['M','S'].indexOf(o.size)<0)o.size='M';return o})();
 function fSave(){try{localStorage.setItem('birriaz_fifo',JSON.stringify(FQ))}catch(e){}}
 // FIFO products = PREP LIST tab: every row with "FIFO label" ticked. The label name is PRODUCT – STAGE (for example ASADA – MARINAR).
 function fItems(){const seen={},out=[];((PCFG&&Array.isArray(PCFG.items)&&PCFG.items.length)?PCFG.items:PITEMS).forEach(i=>{if(!i||!i.n||i.f===false)return;const L=i.p?i.p+(i.s?' – '+i.s:''):i.n;if(seen[L])return;seen[L]=1;out.push({n:L,g:i.g,sl:+i.sl||(PSL&&PSL[i.n])||0})});return out}
@@ -1520,12 +1537,17 @@ function fShelf(n){const it=fItems().find(i=>i.n===n);return (it&&it.sl)||(PSL&&
 function fCalc(){const name=FQ.prod==='__custom'?FQ.custom.trim().toUpperCase():FQ.prod,now=new Date(),sl=FQ.prod==='__custom'?USEBY_DAYS:fShelf(name);return{name:name,custom:FQ.prod==='__custom',prep:now,use:useByDate(now,sl),sl:sl,emp:FQ.emp}}
 // Fits one line of bold text into a width (mm): returns the font size in mm.
 let fCtx=null;function fFit(txt,availMm,maxMm,minMm){try{if(!fCtx)fCtx=document.createElement('canvas').getContext('2d');fCtx.font='900 100px Arial, Helvetica, sans-serif';const w=fCtx.measureText(String(txt)).width/100;return Math.max(minMm||2.5,Math.min(maxMm,w?availMm/w*0.97:maxMm))}catch(e){return Math.min(maxMm,availMm/Math.max(1,String(txt).length)*1.6)}}
+// Product name: one line when it fits, otherwise wraps to 2 or 3 lines (never cut off on the label).
+function fTxt(cls,n,W,max,min,lines){let k=1,sz=fFit(n,W,max,0.1);while(sz<min&&k<lines){k++;sz=fFit(n,W*k*0.88,max,0.1)}sz=Math.max(min*0.8,Math.min(max,sz));
+return `<div class="${cls}${k>1?' fnw':''}" style="font-size:${sz.toFixed(2)}mm">${esc(n)}</div>`}
+function fName(n,W,max,min){return fTxt('fn',n,W,max,min,3)}
+function fHint(){const S=FQ.size==='S';return t('In the print screen choose')+': <b>'+(S?'2.4" × 1.1" (62 × 29 mm)':'2.4" × 2.4" (62 × 62 mm)')+'</b> · '+t('Orientation')+': <b>'+t(S?'Landscape':'Portrait')+'</b> · '+t('More options')+' → <b>'+t('Cut every label')+'</b> (DK-4205, 62 mm)'}
 function fLabelHtml(c,size){const n=c.name||t('PRODUCT NAME'),dy=t(FDAY[c.use.getDay()]);
 if(size==='S'){const l1=t('USED BY')+': '+dy+' '+fMdY(c.use),l3=t('PREPARED')+' '+fMdY(c.prep)+' · '+t('BY')+' '+(c.emp||'—');
-return `<div class="flab fsm"><div class="fu"><b class="fud" style="font-size:${fFit(l1,52,6,2.5).toFixed(2)}mm">${esc(l1)}</b></div><div class="fn" style="font-size:${fFit(n,57,7.5,2.5).toFixed(2)}mm">${esc(n)}</div><div class="fpd" style="font-size:${fFit(l3,57,3.2,2).toFixed(2)}mm">${esc(l3)}</div></div>`}
-const L=size!=='M',W=57;
-const fd=fFit(dy,W-4,L?14:11,4),fdt=L?8.5:6.6,fn=fFit(n,W,L?13:9.5,3);
-return `<div class="flab ${L?'fl':'fm'}"><div class="fu"><span>${t('USED BY')}</span><b class="fud" style="font-size:${fd.toFixed(2)}mm">${esc(dy)}</b><b class="fudt" style="font-size:${fdt}mm">${fMdY(c.use)}</b></div><div class="fn" style="font-size:${fn.toFixed(2)}mm">${esc(n)}</div><div class="fpd">${t('PREPARED')}: ${fMdY(c.prep)}</div><div class="fby">${t('PREPARED BY')}: ${esc(c.emp||'—')}</div></div>`}
+return `<div class="flab fsm"><div class="fu"><b class="fud" style="font-size:${fFit(l1,52,6,2.5).toFixed(2)}mm">${esc(l1)}</b></div>${fName(n,57,7.5,2.5)}${fTxt('fpd',l3,57,3.2,2.2,2)}</div>`}
+const W=57,l3=t('PREPARED')+': '+fMdY(c.prep),l4=t('PREPARED BY')+': '+(c.emp||'—');
+const fd=fFit(dy,W-4,11,4);
+return `<div class="flab fm"><div class="fu"><span>${t('USED BY')}</span><b class="fud" style="font-size:${fd.toFixed(2)}mm">${esc(dy)}</b><b class="fudt" style="font-size:6.6mm">${fMdY(c.use)}</b></div>${fName(n,W,9.5,3)}${fTxt('fpd',l3,W,3.4,2.4,2)}${fTxt('fby',l4,W,3.4,2.4,2)}</div>`}
 function fMethod(){const fk=/FullyKiosk|Fully Kiosk/i.test(navigator.userAgent);if(window.fully&&typeof window.fully.print==='function')return{ok:1,txt:t('Fully Kiosk → Android print screen (Brother Print Service Plugin)')};
 if(fk)return{ok:0,txt:t('Fully Kiosk printing is off. Turn on Advanced Web Settings → Enable JavaScript Interface (needs the Fully Kiosk PLUS license).')};return{ok:1,txt:t('This browser’s print screen')}}
 function fifo(){const it=fItems(),q=FQ.q.trim().toUpperCase(),c=fCalc(),m=fMethod(),names=pNames(),last=FQ.log[0];
@@ -1542,8 +1564,8 @@ h+=`<div class="fside"><b>${t('Label preview')}</b><div class="fprev ${FQ.size==
 const ready=c.name&&c.emp,busy=!!FQ.wait;
 h+=busy?`<div class="fask"><b>${t('Did the label print correctly?')}</b><span>${esc(FQ.wait.product)} · ${FQ.wait.copies} ${FQ.wait.copies>1?t('labels'):t('label')}</span><button class="btn" id="fyes">${t('Yes, it printed')}</button><button class="btn alt" id="fno">${t('No, it did not print')}</button></div>`
 :`<button class="btn fbig" id="fgo" ${ready&&m.ok?'':'disabled'}>&#128424; ${t('PRINT LABEL')}${FQ.copies>1?' × '+FQ.copies:''}</button>${last&&last.status==='Printed'?`<button class="btn alt" id="fan">${t('PRINT ANOTHER')}</button>`:''}${!ready?`<p class="note">${t('Choose a product and who prepared it.')}</p>`:''}`;
-h+=`<div class="fst${m.ok?'':' bad'}"><b>${t('Printer status')}</b><span>${esc(m.txt)}</span><span class="fszr">${t('Label size')}: ${[['L','62 × 100'],['M','62 × 62'],['S','62 × 29']].map(z=>`<button class="btn alt" data-fsz="${z[0]}" aria-pressed="${FQ.size===z[0]}">${z[1]} mm</button>`).join('')}</span>${last?`<span>${t('Last label')}: ${esc(last.product)} · ${t(last.status)} · ${fmtTs(last.at)}</span>`:''}${FQ.ops.length?`<span>${FQ.ops.length} ${t('records waiting to sync.')}</span>`:''}</div>`;
-h+=`<details class="fhelp"><summary>${t('Printer setup (one time)')}</summary><ol><li>${t('Connect the Brother QL-820NWB and the tablet to the same Wi-Fi.')}</li><li>${t('On the tablet install “Brother Print Service Plugin” from the Google Play Store.')}</li><li>${t('Android Settings → Connected devices → Connection preferences → Printing → turn on Brother Print Service Plugin.')}</li><li>${t('In Fully Kiosk: Advanced Web Settings → Enable JavaScript Interface (PLUS license).')}</li><li>${t('Print a first label. In the print screen choose the QL-820NWB, paper 62 mm × 100 mm, 62 mm × 62 mm or 62 mm × 29 mm (the same size you picked on this page), and turn on Auto cut. Android remembers it.')}</li></ol></details></div></div>`;
+h+=`<div class="fst${m.ok?'':' bad'}"><b>${t('Printer status')}</b><span>${esc(m.txt)}</span><span class="fszr">${t('Label size')}: ${[['M','62 × 62'],['S','62 × 29']].map(z=>`<button class="btn alt" data-fsz="${z[0]}" aria-pressed="${FQ.size===z[0]}">${z[1]} mm</button>`).join('')}</span><span class="fhint">${fHint()}</span>${last?`<span>${t('Last label')}: ${esc(last.product)} · ${t(last.status)} · ${fmtTs(last.at)}</span>`:''}${FQ.ops.length?`<span>${FQ.ops.length} ${t('records waiting to sync.')}</span>`:''}</div>`;
+h+=`<details class="fhelp"><summary>${t('Printer setup (one time)')}</summary><ol><li>${t('Connect the Brother QL-820NWB and the tablet to the same Wi-Fi.')}</li><li>${t('On the tablet install “Brother Print Service Plugin” from the Google Play Store.')}</li><li>${t('Android Settings → Connected devices → Connection preferences → Printing → turn on Brother Print Service Plugin.')}</li><li>${t('In Fully Kiosk: Advanced Web Settings → Enable JavaScript Interface (PLUS license).')}</li><li>${t('Print a first label. In the print screen choose the QL-820NWB, paper 2.4" × 2.4" (62 × 62 mm) or 2.4" × 1.1" (62 × 29 mm), the same size you picked on this page, and turn on Auto cut (cut every label). Android remembers it.')}</li></ol></details></div></div>`;
 h+=`<h3 class="gh">${t('FIFO history')}</h3>`+(FQ.log.length?`<div class="tlw2"><table class="tlg tlrec"><thead><tr>${['Created','Product','Prepared','Used by','Prepared by','Copies','Print status'].map(x=>`<th>${t(x)}</th>`).join('')}</tr></thead><tbody>${FQ.log.slice(0,30).map(r=>`<tr class="${r.status==='Printed'?'':'rf'}"><td>${fmtTs(r.at)}</td><td>${esc(r.product)}${r.custom?' <i>('+t('custom')+')</i>':''}</td><td>${fMdY(new Date(r.prep+'T12:00:00'))}</td><td>${fMdY(new Date(r.use+'T12:00:00'))}</td><td>${esc(r.emp)}</td><td>${r.copies}</td><td>${t(r.status)}</td></tr>`).join('')}</tbody></table></div><p class="note">${t('The full history is kept on the FIFO HISTORY tab of the Google Sheet.')}</p>`:`<p class="note">${t('No labels printed on this tablet yet.')}</p>`);
 $('main').innerHTML=h;
 $('fs').oninput=e=>{FQ.q=e.target.value;fSave();const p=e.target.selectionStart;keep(fifo);const f=$('fs');f.focus();try{f.setSelectionRange(p,p)}catch(x){}};
@@ -1560,7 +1582,7 @@ FQ.wait=rec;FQ.log.unshift(rec);FQ.log=FQ.log.slice(0,200);FQ.ops.push({action:'
 let pr=$('fprint');if(!pr){pr=document.createElement('div');pr.id='fprint';document.body.appendChild(pr)}
 pr.innerHTML=Array.from({length:rec.copies},()=>fLabelHtml(c,FQ.size)).join('');
 let ps=$('fpage');if(!ps){ps=document.createElement('style');ps.id='fpage';document.head.appendChild(ps)}
-ps.textContent=`@page{size:62mm ${FQ.size==='M'?62:FQ.size==='S'?29:100}mm;margin:0}`;document.body.classList.add('fprinting');
+const ph=FQ.size==='S'?29:62;ps.textContent=`@page{size:62mm ${ph}mm;margin:0}@media print{html,body.fprinting{width:62mm!important}#fprint .flab{width:62mm!important;height:${ph}mm!important}}`;document.body.classList.add('fprinting');
 const end=()=>{document.body.classList.remove('fprinting')};window.addEventListener('afterprint',end,{once:true});
 try{if(window.fully&&typeof window.fully.print==='function')window.fully.print();else window.print()}catch(e){rec.status='Print error';FQ.wait=null;fQueueStatus(rec);end();fSave();toast(t('The print screen could not open:')+' '+e,true);keep(fifo);fFlush();return}
 setTimeout(end,60000);keep(fifo);fFlush()}
@@ -1645,6 +1667,51 @@ setInterval(flush,15000);
 setInterval(()=>{if(!flushing&&!qget().length)loadRemote()},60000);
 try{if(BACKEND&&!localStorage.getItem('birriaz_seed2')){const q=qget().filter(o=>o.location);OLOCS.forEach(L=>Object.keys(S.by[L]).forEach(c=>{if(C2NAME[c])q.push({action:'set',location:L,item:C2NAME[c],code:c,count:S.by[L][c]})}));qset(q);localStorage.setItem('birriaz_seed2','1')}}catch(e){}
 loadRemote();flush();
+/* ---------- Zelyna: chat + voice assistant (asks the secure backend; the AI key never reaches this page) ---------- */
+const ZL={en:{name:'Zelyna',pow:'Powered by Zelyna',hi:"Hi, I'm Zelyna! Ask me about inventory, tasks, food temperatures or any SOP.",ph:'Ask Zelyna…',send:'Send',mic:'Speak',stop:'Stop',close:'Close',open:'Open Zelyna, the assistant',spk:'Voice replies',think:'Zelyna is looking…',nob:'Zelyna needs the backend connection to answer.',err:'I could not answer right now. Please try again.',lis:'Listening…',sug:['What is marked out in inventory?','Any failed food temperatures?','Which tasks are overdue?']},
+es:{name:'Zelyna',pow:'Powered by Zelyna',hi:'¡Hola, soy Zelyna! Pregúnteme sobre inventario, tareas, temperaturas de comida o cualquier SOP.',ph:'Pregunte a Zelyna…',send:'Enviar',mic:'Hablar',stop:'Detener',close:'Cerrar',open:'Abrir a Zelyna, la asistente',spk:'Respuestas en voz',think:'Zelyna está buscando…',nob:'Zelyna necesita la conexión con el servidor para responder.',err:'No pude responder ahora. Intente de nuevo.',lis:'Escuchando…',sug:['¿Qué está marcado como agotado en inventario?','¿Hay temperaturas de comida fuera de rango?','¿Qué tareas están atrasadas?']}};
+const ZEL={open:false,msgs:[],busy:false,rec:null,speak:(()=>{try{return localStorage.getItem('zel_voice')!=='0'}catch(e){return true}})()};
+const zt=k=>(ZL[S.lang==='es'?'es':'en'])[k];
+function zelStripMd(s){return String(s).replace(/[*_`#>]+/g,'').replace(/\s+\n/g,'\n').trim()}
+function zelSay(text){try{if(!ZEL.speak||!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(zelStripMd(text)),lang=S.lang==='es'?'es':'en';u.lang=lang==='es'?'es-US':'en-US';
+const vs=speechSynthesis.getVoices().filter(v=>v.lang.toLowerCase().startsWith(lang)),fem=/female|mujer|samantha|zira|susan|karen|monica|m[oó]nica|paulina|helena|sabina|jenny|aria|google (us english|espa)/i;
+const v=vs.find(x=>fem.test(x.name))||vs[0];if(v)u.voice=v;u.pitch=1.08;u.rate=1;speechSynthesis.speak(u)}catch(e){}}
+function zelRender(){const root=$('zel');if(!root)return;
+const L=ZEL.msgs.map(m=>`<div class="zm ${m.r}">${esc(m.c).replace(/\n/g,'<br>')}</div>`).join('');
+const sug=!ZEL.msgs.some(m=>m.r==='u')?`<div class="zsg">${zt('sug').map((q,i)=>`<button type="button" data-zq="${i}">${esc(q)}</button>`).join('')}</div>`:'';
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+root.innerHTML=ZEL.open?`<section class="zp" role="dialog" aria-label="Zelyna"><header><div><b>${zt('name')}</b><small>${zt('pow')}</small></div><button type="button" id="zspk" class="zi" aria-pressed="${ZEL.speak}" aria-label="${zt('spk')}" title="${zt('spk')}">${ZEL.speak?'🔊':'🔇'}</button><button type="button" id="zx" class="zi" aria-label="${zt('close')}">✕</button></header>
+<div class="zl" id="zl" aria-live="polite"><div class="zm a">${esc(zt('hi'))}</div>${sug}${L}${ZEL.busy?`<div class="zm a zd">${zt('think')}</div>`:''}</div>
+<form id="zf" class="zin">${SR?`<button type="button" id="zmic" class="zi zmic${ZEL.rec?' on':''}" aria-label="${ZEL.rec?zt('stop'):zt('mic')}">🎤</button>`:''}<input id="zq" type="text" autocomplete="off" maxlength="500" placeholder="${ZEL.rec?zt('lis'):zt('ph')}" aria-label="${zt('ph')}"><button class="btn zs" type="submit"${ZEL.busy?' disabled':''}>${zt('send')}</button></form></section>`:'';
+const fab=$('zfab');if(fab){fab.style.display=ZEL.open?'none':'flex';fab.setAttribute('aria-label',zt('open'))}
+const l=$('zl');if(l)l.scrollTop=l.scrollHeight;if(ZEL.open&&!ZEL.rec){const q=$('zq');if(q&&!ZEL.keep)q.focus()}}
+function zelAsk(text){text=String(text||'').trim();if(!text||ZEL.busy)return;ZEL.msgs.push({r:'u',c:text});
+if(!BACKEND){ZEL.msgs.push({r:'a',c:zt('nob')});zelRender();return}
+ZEL.busy=true;zelRender();
+const hist=ZEL.msgs.slice(-9).map(m=>({role:m.r==='u'?'user':'assistant',content:m.c}));
+const pin=(typeof TK!=='undefined'&&TK.mgr&&TK.pin)?TK.pin:'';
+const c=new AbortController(),tm=setTimeout(()=>c.abort(),50000);
+fetch(BACKEND,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'zelyna',key:BKEY,location:S.ol,lang:S.lang,pin:pin,messages:hist}),signal:c.signal})
+.then(r=>r.json()).then(j=>{const m=j&&j.ok?j.reply:((j&&j.error)||zt('err'));ZEL.msgs.push({r:'a',c:m});if(j&&j.ok)zelSay(m)})
+.catch(()=>ZEL.msgs.push({r:'a',c:zt('err')})).finally(()=>{clearTimeout(tm);ZEL.busy=false;zelRender()})}
+function zelMic(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return;
+if(ZEL.rec){try{ZEL.rec.stop()}catch(e){}return}
+try{speechSynthesis.cancel()}catch(e){}
+const r=new SR();r.lang=S.lang==='es'?'es-US':'en-US';r.interimResults=true;r.continuous=false;let fin='';
+r.onresult=e=>{let s='';for(let i=0;i<e.results.length;i++){s+=e.results[i][0].transcript;if(e.results[i].isFinal)fin=s}const q=$('zq');if(q)q.value=s};
+r.onend=()=>{ZEL.rec=null;const q=$('zq'),txt=(fin||(q&&q.value)||'').trim();zelRender();if(txt)zelAsk(txt)};
+r.onerror=()=>{};ZEL.rec=r;try{r.start()}catch(e){ZEL.rec=null}zelRender()}
+(function(){const d=document.createElement('div');d.id='zelwrap';d.innerHTML='<button type="button" id="zfab" class="zfab" aria-label="Zelyna"><span aria-hidden="true">✦</span> Zelyna</button><div id="zel"></div>';document.body.appendChild(d);
+$('zfab').onclick=()=>{ZEL.open=true;zelRender()};
+d.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+if(b.id==='zx'){ZEL.open=false;try{speechSynthesis.cancel()}catch(x){}if(ZEL.rec)try{ZEL.rec.stop()}catch(x){}zelRender()}
+else if(b.id==='zspk'){ZEL.speak=!ZEL.speak;try{localStorage.setItem('zel_voice',ZEL.speak?'1':'0');if(!ZEL.speak)speechSynthesis.cancel()}catch(x){}zelRender()}
+else if(b.id==='zmic')zelMic();
+else if(b.dataset.zq!==undefined)zelAsk(zt('sug')[+b.dataset.zq])});
+d.addEventListener('submit',e=>{if(e.target.id!=='zf')return;e.preventDefault();const q=$('zq'),v=q?q.value:'';if(q)q.value='';zelAsk(v)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ZEL.open){ZEL.open=false;zelRender()}});
+document.querySelector('.lang').addEventListener('click',()=>setTimeout(zelRender,0));
+try{if(window.speechSynthesis)speechSynthesis.getVoices()}catch(e){}zelRender()})();
 </script>
 </body>
 </html>
