@@ -479,6 +479,7 @@ html[lang=es] nav button span{font-size:84%;overflow-wrap:break-word}html[lang=e
 /* AC: side menu names in capitals fit on the menu (no cut letters) */
 #nav button span{font-size:12.5px;letter-spacing:-.4px;line-height:1.15}
 </style>
+<style id="hwecss">.twbp[data-hwe]{cursor:pointer}.twbp[data-hwe]:active{transform:scale(.96)}</style>
 <style id="zholdcss">body.zhold,body.zhold *{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important}</style>
 <style id="boldcss">.flab.fbo{padding:1mm 2.5mm;justify-content:space-between;gap:.6mm}.flab.fbo .fbn{text-align:center;display:flex;align-items:center;justify-content:center;height:7.2mm;overflow:hidden}.flab.fbo .fbn .fn{text-align:center;max-width:100%}.flab.fbo .fbb{display:flex;height:14mm;background:#000;color:#fff;border-radius:1mm;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact}.flab.fbo .fbu{width:5.4mm;display:flex;align-items:center;justify-content:center;flex:none}.flab.fbo .fbu span{writing-mode:vertical-rl;transform:rotate(180deg);font-size:3.4mm;font-weight:900;letter-spacing:.2mm;white-space:nowrap;color:#fff}.flab.fbo .fbr{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4mm;color:#fff}.flab.fbo .fbr b{font-weight:900;line-height:1;white-space:nowrap;text-transform:uppercase}.flab.fbo .fbr i{font-style:normal;font-weight:800;line-height:1;white-space:nowrap}.flab.fbo .fbp{font-weight:700;white-space:nowrap;overflow:hidden;text-align:center;line-height:1}.flaybt{display:flex;gap:6px;margin:6px 0}.flaybt button{flex:1}</style>
 <style id="ufcss">.flab.fuf{background:#000!important;color:#fff!important;align-items:center;justify-content:center;text-align:center;padding:1mm;-webkit-print-color-adjust:exact;print-color-adjust:exact}.flab.fuf b{display:block;font-weight:900;line-height:.95;letter-spacing:.2mm;white-space:nowrap;color:#fff!important}.fuf2{margin-top:14px}
@@ -956,7 +957,7 @@ const tile=`<div class="dt lst" role="listitem" style="background:${c[0]};color:
 const pend=`<button class="dt pend${pc.urg?' hot':''}" data-go="prep" aria-label="${t('Prep pending')}: ${pc.pend}"><em>${t('Prep pending')}</em><span class="pbig">${pc.pend}</span></button>`;
 let tw='';try{const s=twStatsFor(twCfg(),twCur()),cfg=twCfg(),a=s.store,off=new Set((cfg.employees||[]).filter(e=>e.off).map(e=>e.name));
 const ppl=s.order.filter(n=>!off.has(n)).map(n=>{const b=s.byEmp[n];return [n,b.pending+b.overdue,b.overdue]});
-tw=`<button class="dt pend qk twbig ${a.pct===null?'':'p-'+twPc(a.pct)}" data-go="tasks" aria-label="${t('Collaborator tasks')}"><span class="twbh"><svg viewBox="0 0 24 24" aria-hidden="true">${ICON.tasks}</svg><em>${t('Collaborator tasks')}</em><small>${t('Tasks left to complete')}</small></span><span class="twbl">${ppl.map(p=>`<span class="twbp${p[1]?'':' ok'}"><b>${esc(p[0])}</b><i>${p[1]?p[1]:'&#10003;'}</i>${p[2]?`<small>${p[2]} ${t('overdue')}</small>`:''}</span>`).join('')}</span></button>`}catch(e){}
+tw=`<button class="dt pend qk twbig ${a.pct===null?'':'p-'+twPc(a.pct)}" data-go="tasks" aria-label="${t('Collaborator tasks')}"><span class="twbh"><svg viewBox="0 0 24 24" aria-hidden="true">${ICON.tasks}</svg><em>${t('Collaborator tasks')}</em><small>${t('Tasks left to complete')}</small></span><span class="twbl">${ppl.map(p=>`<span class="twbp${p[1]?'':' ok'}" data-hwe="${esc(p[0])}"><b>${esc(p[0])}</b><i>${p[1]?p[1]:'&#10003;'}</i>${p[2]?`<small>${p[2]} ${t('overdue')}</small>`:''}</span>`).join('')}</span></button>`}catch(e){}
 const ni=Object.keys(S.oos||{}).length,inv=`<button class="dt pend qk" data-go="oos" aria-label="${t('Inventory')}"><svg viewBox="0 0 24 24" aria-hidden="true">${ICON.oos}</svg><em>${t('Inventory')}</em><span>${ni}</span><b>${t('items marked')}</b></button>`;
 return `<section><h3 class="gh">Home OPS Pilot</h3><div class="dts q3" role="list">${tile}${pend}${inv}${shTile()}${mgTile()}${tw}</div></section>`}
 /* ---- Manager mode: ONE place, the MANAGER tile on Home. It unlocks everything; it turns off by itself after 15 minutes without a tap. ---- */
@@ -981,7 +982,10 @@ $('main').innerHTML='<h2>'+t('Home')+'</h2>'+dateSec()+alSec()
 +g('maint',tg('<button class="tile" data-go="maint">'+t('Report a problem')+'</button>'))
 +g('templog',tg('<button class="tile" data-go="templog">'+t('Open the list')+'</button>'))
 +g('recipes',tg('<button class="tile" data-go="recipes">'+t('Open the list')+'</button>'))}
-$('main').addEventListener('click',e=>{const b=e.target.closest('button[data-go]');if(!b)return;cur=b.dataset.go;const i=b.dataset.i;rc=-1;if(b.dataset.s)sp=b.dataset.s;if(i!==undefined){if(cur==='recipes')rc=+i;if(cur==='weekly')wd=WK[+i].days[0]}go()});
+$('main').addEventListener('click',e=>{const b=e.target.closest('button[data-go]');if(!b)return;
+/* AD: a name on the Home collaborator tile opens that person's profile directly */
+const hw=e.target.closest('[data-hwe]');if(hw&&b.dataset.go==='tasks'){const n=hw.dataset.hwe;cur='tasks';rc=-1;go();TK.view='open';TK.emp=n;TK.day=-1;TN.open={};twRender();try{pfWith(n,()=>twSay(n))}catch(x){}e.stopImmediatePropagation();return}
+cur=b.dataset.go;const i=b.dataset.i;rc=-1;if(b.dataset.s)sp=b.dataset.s;if(i!==undefined){if(cur==='recipes')rc=+i;if(cur==='weekly')wd=WK[+i].days[0]}go()});
 function li(x){return Array.isArray(x)?`<li><div>${esc(x[0])}<ul>${x[1].map(li).join('')}</ul></div></li>`:`<li><div>${esc(x)}</div></li>`}
 /* PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BETWEEN THE QUOTES (ends in /exec). Leave empty to open the email app instead. */
 const BACKEND='https://script.google.com/macros/s/AKfycbz_cTli6j5puXoCI4YI6Hk3sypQjlpz9TCcOkX9I3qcyrVoruVqIysKA68xlQZ-IAXk/exec',BKEY='';
