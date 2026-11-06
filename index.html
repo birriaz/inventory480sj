@@ -2011,13 +2011,13 @@ function fifo(){const it=fItems(),q=FQ.q.trim().toUpperCase(),c=fCalc(),m=fMetho
 if(FQ.prod&&FQ.prod!=='__custom'&&!it.some(i=>i.n===FQ.prod)){FQ.prod=''}
 const shown=it.filter(i=>!q||i.n.indexOf(q)>=0);
 let h=`<h2>${t('FIFO labels')}</h2><p class="note dl">${dateLine()}</p><div class="fwrap"><div class="fform">`;
-h+=`<label class="tlfl" for="fs">${t('Product')}</label><input id="fs" type="search" placeholder="${t('Search labels')}" value="${esc(FQ.q)}" autocomplete="off">`;
-h+=`<div id="fp" class="fpl" role="listbox" aria-label="${t('Product')}">${fListInner(shown,0)}${fListInner(shown,1)}${fListInner(shown,2)}</div>`;
 h+=`<button type="button" class="fcus" data-fp="__custom" aria-pressed="${FQ.prod==='__custom'}">✎ ${t('CUSTOM ITEM')} <small>(${t('type the name')})</small></button>`;
 if(FQ.prod==='__custom')h+=`<label class="tlfl">${t('Custom item name')}<input id="fc" type="text" maxlength="40" value="${esc(FQ.custom)}" placeholder="${t('Type the item')}" autocomplete="off"></label>`;
+h+=`<label class="tlfl" for="fs">${t('Product')}</label><input id="fs" type="search" placeholder="${t('Search labels')}" value="${esc(FQ.q)}" autocomplete="off">`;
+h+=`<div id="fp" class="fpl" role="listbox" aria-label="${t('Product')}">${fListInner(shown,0)}${fListInner(shown,1)}${fListInner(shown,2)}</div>`;
 h+=`<label class="tlfl" for="fe">${t('Prepared by')}</label><select id="fe" class="fsel"><option value="">${t('Choose a collaborator')}</option>${names.map(n=>`<option ${FQ.emp===n?'selected':''}>${esc(n)}</option>`).join('')}</select>`;
 h+=`<div class="fcp"><b>${t('Number of copies')}</b><button class="btn alt" id="fm" aria-label="${t('Fewer')}">&minus;</button><span id="fcn">${FQ.copies}</span><button class="btn alt" id="fpl" aria-label="${t('More')}">+</button></div>`;
-h+=`<div class="fdt"><div><span>${t('Prepared')}</span><b>${t(FDAY[c.prep.getDay()])} ${fMdY(c.prep)}</b></div><div><span>${t('Used by')}</span><b>${t(FDAY[c.use.getDay()])} ${fMdY(c.use)}</b></div>${c.name?(c.src==='none'?`<small class="fslw">&#9888; ${t('No approved shelf life for this product. It prints with the standard 6 days. A manager sets it on the FIFO tab.')}</small>`:`<small>${t('Shelf life')}: ${c.sl} ${t('days')}${c.src==='category'?' ('+t('category')+' '+esc(c.cat)+')':''}</small>`):''}</div></div>`;
+h+=`</div>`;
 h+=`<div class="fside"><b>${t('Label preview')}</b><div class="fprev ${FQ.size==='M'?'m':FQ.size==='S'?'s':''}">${fLabelHtml(c,FQ.size)}</div><div class="flaybt"><button type="button" class="btn ${FQ.lay==='B'?'alt':''}" data-lay="A" aria-pressed="${FQ.lay!=='B'}">${t('CLASSIC')}</button><button type="button" class="btn ${FQ.lay==='B'?'':'alt'}" data-lay="B" aria-pressed="${FQ.lay==='B'}">${t('BOLD')}</button></div>`;
 const ready=c.name&&c.emp,busy=!!FQ.wait;
 h+=`<button class="btn fbig" id="fgo" ${ready&&m.ok?'':'disabled'}>&#128424; ${t('PRINT LABEL')}${FQ.copies>1?' × '+FQ.copies:''}</button>${last&&last.product===c.name&&FQ.again?`<button class="btn alt" id="fan">${t('PRINT AGAIN')}</button>`:''}${!ready?`<p class="note">${t('Choose a product and who prepared it.')}</p>`:''}`;
