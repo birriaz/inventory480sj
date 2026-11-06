@@ -465,6 +465,21 @@ html[lang=es] .dt em{font-size:14px;letter-spacing:0}
 @media (max-width:600px){.pk{grid-auto-rows:auto;overflow:auto}.pk button{min-height:72px;font-size:22px}}
 html[lang=es] nav button span{font-size:84%;overflow-wrap:break-word}html[lang=es] .mgt b{font-size:13px!important}html[lang=es] .mgt .mgs{font-size:19px}
 </style><style id="fifo2css">.fpl .fpc{position:sticky;top:0;z-index:1;background:#ECEFF1;color:#37474F;font-weight:900;font-size:15px;letter-spacing:.5px;padding:6px 14px;border-bottom:1px solid #ccd}.fpl button.nsl::after{content:" \26A0";color:#B45309;font-weight:900}.fdt small.fslw{color:#8A4B00;background:#FFF4E5;border-radius:8px;padding:6px 8px;font-weight:700}.flab.fbk .bkd{display:block;font-weight:800;color:#fff!important;line-height:1;white-space:nowrap;text-align:center;position:relative;z-index:1}</style>
+<style id="accss">/* AC: recipe editor grid: header lines up with the boxes, every cell the same height, text centered */
+.rcel .rcer{grid-template-columns:40px minmax(0,2fr) minmax(0,1.1fr) minmax(0,1fr) minmax(0,2fr) 236px}
+.rcel .rcer>*{min-height:52px;box-sizing:border-box}
+.rcel .rcer .rcen{display:flex;align-items:center;justify-content:center;font-weight:800;color:#555;background:#F5F5F5}
+.rcel .rcer input,.rcel .rcer select{height:100%;min-height:52px;padding:6px 10px;font-size:19px;line-height:1.2}
+.rcel .rcer select{-webkit-appearance:none;appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='2' fill='none'/%3E%3C/svg%3E") no-repeat right 10px center;padding-right:28px}
+.rcel .rcer .rcem{display:flex;align-items:center;justify-content:flex-end;gap:6px}
+.rcel .rceh>*{min-height:0}.rcel .rceh span{display:flex;align-items:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:8px 10px;font-size:16px}.rcel .rceh .rcen{background:#B0001E;color:#fff}
+.rcel .rcer input:focus,.rcel .rcer select:focus{outline:3px solid #B0001E;outline-offset:-3px}
+@media (max-width:1100px){.rcel .rcer{grid-template-columns:40px minmax(0,1.6fr) minmax(0,1fr) minmax(0,1fr)}.rcel .rcer .rcex{grid-column:2/5;border-top:1px solid #ccc;border-right:0}.rcel .rcer .rcem{grid-column:1/5;border-top:1px solid #ccc;padding:4px 6px}.rcel .rceh span:nth-child(5),.rcel .rceh span:nth-child(6){display:none}.rcel .rcer .rcen{grid-row:span 2}}
+@media (max-width:700px){.rcel .rceh{display:none}.rcel .rcer{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.rcel .rcer input[data-rca]{grid-column:1/3;border-right:0;border-bottom:1px solid #ccc}.rcel .rcer .rcex,.rcel .rcer .rcem{grid-column:1/3}}
+/* AC: side menu names in capitals fit on the menu (no cut letters) */
+#nav button span{font-size:12.5px;letter-spacing:-.4px;line-height:1.15}
+</style>
+<style id="zholdcss">body.zhold,body.zhold *{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important}</style>
 <style id="boldcss">.flab.fbo{padding:1mm 2.5mm;justify-content:space-between;gap:.6mm}.flab.fbo .fbn{text-align:center;display:flex;align-items:center;justify-content:center;height:7.2mm;overflow:hidden}.flab.fbo .fbn .fn{text-align:center;max-width:100%}.flab.fbo .fbb{display:flex;height:14mm;background:#000;color:#fff;border-radius:1mm;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact}.flab.fbo .fbu{width:5.4mm;display:flex;align-items:center;justify-content:center;flex:none}.flab.fbo .fbu span{writing-mode:vertical-rl;transform:rotate(180deg);font-size:3.4mm;font-weight:900;letter-spacing:.2mm;white-space:nowrap;color:#fff}.flab.fbo .fbr{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4mm;color:#fff}.flab.fbo .fbr b{font-weight:900;line-height:1;white-space:nowrap;text-transform:uppercase}.flab.fbo .fbr i{font-style:normal;font-weight:800;line-height:1;white-space:nowrap}.flab.fbo .fbp{font-weight:700;white-space:nowrap;overflow:hidden;text-align:center;line-height:1}.flaybt{display:flex;gap:6px;margin:6px 0}.flaybt button{flex:1}</style>
 <style id="ufcss">.flab.fuf{background:#000!important;color:#fff!important;align-items:center;justify-content:center;text-align:center;padding:1mm;-webkit-print-color-adjust:exact;print-color-adjust:exact}.flab.fuf b{display:block;font-weight:900;line-height:.95;letter-spacing:.2mm;white-space:nowrap;color:#fff!important}.fuf2{margin-top:14px}
 /* Black stickers: their own dark tile, set apart from the regular labels */
@@ -2522,7 +2537,10 @@ root.innerHTML=ZEL.open?`<section class="zp" role="dialog" aria-label="Zelyna"><
 ${zPttOk()?`<div class="zmics" role="group" aria-label="${zt('ptt')}">${['en','es'].map(l=>{const on=lis&&ZEL.slang===l;return`<button type="button" id="${l==='en'?'zmic':'zmic2'}" data-zl="${l}" lang="${l}" class="zi zmic zmw${on?' on':''}${on&&ZEL.L&&ZEL.L.ptt?' ptt':''}" aria-pressed="${on}" aria-label="${(l==='en'?'English':'Español')+' · '+zt('ptt')}" title="${zt('ptt')}" ${ZEL.state==='processing'?'disabled':''}>&#127908; ${l==='en'?'English':'Español'}</button>`}).join('')}</div>`:''}<form id="zf" class="zin">${zPttOk()?'':`<button type="button" id="zmic" class="zi zmic${lis?' on':''}" aria-pressed="${lis}" aria-label="${lis?zt('lis'):zt('mic')}" title="${zt('mic')}" ${ZEL.state==='processing'?'disabled':''}>&#127908;</button>`}<input id="zq" type="text" autocomplete="off" maxlength="500" placeholder="${lis?zt('lis'):zPh()}" aria-label="${zt('ph')}"><button class="btn zs" type="submit"${ZEL.state==='processing'?' disabled':''}>${zt('send')}</button></form></section>`:'';
 const q=$('zq');if(q&&keepTxt)q.value=keepTxt;
 const fab=$('zfab');if(fab){fab.style.display=ZEL.open?'none':'flex';fab.setAttribute('aria-label',zt('open'))}
-zphPaint();const l=$('zl');if(l)l.scrollTop=l.scrollHeight;if(ZEL.open&&q&&!ZEL.keep&&(ZEL.state!=='listening'||(ZEL.L&&ZEL.L.mode==='kbd')))q.focus()}
+zphPaint();const l=$('zl');if(l)l.scrollTop=l.scrollHeight;if(ZEL.open&&q&&!ZEL.keep&&!document.body.classList.contains('zhold')&&(ZEL.state!=='listening'||(ZEL.L&&ZEL.L.mode==='kbd'))&&(!zPttOk()||zFine()))q.focus()}
+function zFine(){try{return matchMedia('(pointer:fine)').matches&&!matchMedia('(pointer:coarse)').matches}catch(e){return true}}
+// AC: a small hidden log of the talk button (last 40 events) for troubleshooting on a tablet
+function zLog(x){try{const a=JSON.parse(localStorage.getItem('birriaz_pttlog')||'[]');a.push(new Date().toTimeString().slice(0,8)+' '+x);localStorage.setItem('birriaz_pttlog',JSON.stringify(a.slice(-40)))}catch(e){}}
 /* photos (menu Docs / RECIPES tab): fetched from the Google script, kept while the app is open; tap = full screen */
 const ZPH={},ZPHW={};
 function zphLoad(id,cb){if(ZPH[id]){cb&&cb(ZPH[id]);return}if(!BACKEND)return;(ZPHW[id]=ZPHW[id]||[]).push(cb);if(ZPHW[id].length>1)return;
@@ -2576,7 +2594,7 @@ try{r.start()}catch(e){zelSrDead();return}
 if(!L.checked){L.checked=1;setTimeout(()=>{if(ZEL.L===L&&!L.done&&!L.alive)zelSrDead()},6000)}}
 // The recognizer never answered (Android WebView / Fully Kiosk): switch to keyboard voice typing for good on this tablet.
 function zelSrDead(){const L=ZEL.L;zSetMode('kbd');if(L){L.done=true;try{L.rec&&L.rec.abort()}catch(e){}clearInterval(L.tick)}ZEL.msgs.push({r:'a',c:zt('kbdswitch'),err:true});ZEL.L=null;ZEL.state='idle';zelRender();zelMic()}
-function zelFinish(send,msg){const L=ZEL.L;if(!L||L.done)return;L.done=true;clearInterval(L.tick);clearTimeout(L.relT);
+function zelFinish(send,msg){const L=ZEL.L;if(!L||L.done)return;zLog('finish '+(send?'send':'stop')+(msg?' '+msg:''));L.done=true;clearInterval(L.tick);clearTimeout(L.relT);
 if(L.mode==='rec'){ZEL.L=null;ZEL.state='idle';if(msg)ZEL.msgs.push({r:'a',c:msg,err:true});zelRender();zelRecFinish(L,send&&!msg);return}
 try{if(L.rec)(send?L.rec.stop():L.rec.abort())}catch(e){}
 const q=$('zq'),txt=((q&&q.value)||'').replace(/\s+/g,' ').trim();ZEL.L=null;ZEL.state='idle';
@@ -2594,8 +2612,9 @@ if(L.mode==='sr'){try{L.rec&&L.rec.stop()}catch(e){}L.relT=setTimeout(()=>zelFin
 if(L.mode==='rec'&&!L.mr){zelPaint();return}   // the recorder is still starting: it sends as soon as it is ready
 zelFinish(true)}
 const PTT={on:false,id:null};
+setInterval(()=>{if(!PTT.on&&document.body.classList.contains('zhold'))document.body.classList.remove('zhold')},1000);
 function zPttDown(id){if(PTT.on||ZEL.state==='processing')return;if(ZEL.state==='listening'){if(ZEL.L&&ZEL.L.ptt&&!ZEL.L.rel)zPttUp();return}PTT.on=true;PTT.id=id;zelMic(true);if(!(ZEL.L&&ZEL.L.ptt))PTT.on=false}
-function zPttUp(){if(!PTT.on)return;PTT.on=false;PTT.id=null;zelRelease()}
+function zPttUp(){document.body.classList.remove('zhold');if(!PTT.on)return;PTT.on=false;PTT.id=null;zelRelease()}
 // ---- Zelyna records the voice herself (when the owner added the speech key): auto English/Spanish, one request with the answer
 ZEL.stt=(()=>{try{return localStorage.getItem('zel_stt')==='1'}catch(e){return false}})();
 function zCanRec(){return !!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&window.MediaRecorder)}
@@ -2644,14 +2663,17 @@ else if(b.id==='zlang'){ZEL.slang=ZEL.slang==='es'?'en':'es';try{localStorage.se
 else if(b.dataset.zrt!==undefined){const m=ZEL.msgs[+b.dataset.zrt];if(m){const q=$('zq');if(q)q.value='';if(m.retryA&&ZEL.lastAudio)zelAskAudio(ZEL.lastAudio,+b.dataset.zrt);else zelAsk(m.retry,+b.dataset.zrt)}}
 else if(b.dataset.zq!==undefined)zelAsk(zt('sug')[+b.dataset.zq])});
 const onMic=e=>!!(e.target&&e.target.closest&&e.target.closest('.zmic'));const micOf=e=>e.target.closest('.zmic'),setL=e=>{const b=micOf(e);if(b&&b.dataset.zl&&b.dataset.zl!==ZEL.slang){ZEL.slang=b.dataset.zl;try{localStorage.setItem('zel_slang',ZEL.slang)}catch(x){}}};
-if(window.PointerEvent){d.addEventListener('pointerdown',e=>{if(!onMic(e)||!zPttOk()||(e.button!==undefined&&e.button>0))return;const b=micOf(e);if(b&&b.disabled)return;setL(e);e.preventDefault();zPttDown(e.pointerId)});
-['pointerup','pointercancel'].forEach(ev=>document.addEventListener(ev,e=>{if(PTT.on&&(PTT.id===null||PTT.id===e.pointerId))zPttUp()},true))}
+if(window.PointerEvent){d.addEventListener('pointerdown',e=>{if(!onMic(e)||!zPttOk()||(e.button!==undefined&&e.button>0))return;const b=micOf(e);if(b&&b.disabled)return;setL(e);e.preventDefault();try{b.setPointerCapture(e.pointerId)}catch(x){}try{const ae=document.activeElement;if(ae&&ae.id==='zq')ae.blur()}catch(x){}document.body.classList.add('zhold');zLog('down '+e.pointerType);zPttDown(e.pointerId)});
+document.addEventListener('pointerup',e=>{if(PTT.on&&(PTT.id===null||PTT.id===e.pointerId)){zLog('up');zPttUp()}},true);
+document.addEventListener('pointercancel',e=>{if(PTT.on&&PTT.id===e.pointerId){zLog('cancel ignored');PTT.id=null}},true);   // the browser gave up the pointer: wait for the real finger lift (touchend below)
+document.addEventListener('touchend',e=>{if(PTT.on&&PTT.id===null&&(!e.touches||!e.touches.length)){zLog('touchend');zPttUp()}},true);
+document.addEventListener('selectstart',e=>{if(PTT.on||onMic(e))e.preventDefault()},true)}
 else{d.addEventListener('touchstart',e=>{if(!onMic(e)||!zPttOk())return;setL(e);e.preventDefault();zPttDown(null)},{passive:false});d.addEventListener('mousedown',e=>{if(onMic(e)&&zPttOk()&&!e.button){setL(e);zPttDown(null)}});
 ['touchend','touchcancel','mouseup'].forEach(ev=>document.addEventListener(ev,()=>{if(PTT.on)zPttUp()},true))}
 d.addEventListener('keydown',e=>{if(!onMic(e)||!zPttOk()||(e.key!==' '&&e.key!=='Enter'))return;e.preventDefault();if(!e.repeat){setL(e);zPttDown('key')}});
 d.addEventListener('keyup',e=>{if((e.key===' '||e.key==='Enter')&&PTT.on&&PTT.id==='key'){e.preventDefault();zPttUp()}});
-d.addEventListener('contextmenu',e=>{if(onMic(e))e.preventDefault()});   // a long press must not open a menu
-window.addEventListener('blur',()=>{if(PTT.on)zPttUp()});
+document.addEventListener('contextmenu',e=>{if(PTT.on||onMic(e)){e.preventDefault();zLog('menu blocked')}},true);   // a long press must not open a menu
+window.addEventListener('blur',()=>{if(PTT.on){zLog('blur');if(PTT.id==='key')zPttUp()}});
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&ZEL.state==='listening'&&ZEL.L&&ZEL.L.ptt){PTT.on=false;zelFinish(false,zt('pttint'))}});
 d.addEventListener('submit',e=>{if(e.target.id!=='zf')return;e.preventDefault();if(ZEL.state==='listening'){zelFinish(true);return}const q=$('zq'),v=q?q.value:'';if(!String(v).trim())return;if(q)q.value='';zelAsk(v)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ZEL.open){if(ZEL.state==='listening')zelFinish(false);ZEL.open=false;zelRender()}});
