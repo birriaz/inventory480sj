@@ -1,4 +1,4 @@
-// Digital Pilot OPS · offline helper (service worker) · VERSION 2026-11-04-U
+// ZELYNA OS · offline helper (service worker) · VERSION 2026-11-04-U
 // Keeps a copy of the app on the tablet so it still opens without internet.
 // With internet: always loads the newest page from GitHub (and refreshes the saved copy).
 // Without internet: opens the saved copy instead of the "not found" error.
